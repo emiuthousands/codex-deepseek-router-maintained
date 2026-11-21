@@ -1,6 +1,6 @@
 {
   "name": "codex-deepseek-router",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Community-maintained routing of Codex work to DeepSeek Flash and Pro across native and Desktop-compatible transports.",
   "author": {
     "name": "emiuthousands and contributors",

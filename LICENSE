@@ -22,20 +22,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-This project incorporates and adapts MIT-licensed implementation ideas and
-code from the following upstream projects:
-
-- oil-oil/codex-deepseek-subagent (MIT)
-  https://github.com/oil-oil/codex-deepseek-subagent
-- Utopia-V/codex-deepseek-subagent (MIT)
-  https://github.com/Utopia-V/codex-deepseek-subagent
-
-Reasoning-routing design is additionally inspired by:
-
-- yjh051108/dsh-routing-suite
-  https://github.com/yjh051108/dsh-routing-suite
-
-See NOTICE.md for the attribution details and upstream license notices.
