@@ -266,6 +266,10 @@ class Paths:
         return self.plugin_root / ".codex-plugin" / "plugin.json"
 
     @property
+    def portable_plugin_manifest(self) -> Path:
+        return self.plugin_root / "plugin.json"
+
+    @property
     def plugin_hooks_config(self) -> Path:
         return self.plugin_root / "hooks" / "hooks.json"
 
@@ -2026,10 +2030,13 @@ def legacy_hook_status(paths: Paths) -> Dict[str, Any]:
 
 
 def plugin_status(paths: Paths) -> Dict[str, Any]:
+    manifest_path = paths.plugin_manifest
+    if not manifest_path.is_file() and paths.portable_plugin_manifest.is_file():
+        manifest_path = paths.portable_plugin_manifest
     manifest_valid = False
-    if paths.plugin_manifest.is_file():
+    if manifest_path.is_file():
         try:
-            payload = json.loads(paths.plugin_manifest.read_text(encoding="utf-8"))
+            payload = json.loads(manifest_path.read_text(encoding="utf-8"))
             manifest_valid = (
                 isinstance(payload, dict)
                 and payload.get("name") == PROJECT_NAME
@@ -2039,7 +2046,7 @@ def plugin_status(paths: Paths) -> Dict[str, Any]:
             manifest_valid = False
     return {
         "root": str(paths.plugin_root),
-        "manifest": str(paths.plugin_manifest),
+        "manifest": str(manifest_path),
         "manifest_valid": manifest_valid,
         "hook_config": str(paths.plugin_hooks_config),
         "hook_available": plugin_hook_available(paths),
@@ -2052,7 +2059,13 @@ def runtime_assets_valid(paths: Paths, manifest: Dict[str, Any]) -> bool:
         _file_is_ours(asset.path, manifest, key)
         for key, asset in managed_assets(paths).items()
         if asset.verify_integrity
+        and (not key.startswith("handoff_") or hook_runtime_bundled(paths))
     )
+
+
+def hook_runtime_bundled(paths: Paths) -> bool:
+    """Whether this package includes the legacy plaintext Hook edition."""
+    return paths.plugin_hooks_config.is_file()
 
 
 def hook_files_installed(paths: Paths, manifest: Dict[str, Any]) -> bool:
@@ -2099,9 +2112,11 @@ def apply_managed_assets(
         for key, path in handoff_paths.items()
     }
     install_hook_files(paths, manifest, restore_managed)
-    changed["handoff_runtime"] = any(
-        before[key] != sha256_file(path) for key, path in handoff_paths.items()
-    )
+    after = {
+        key: sha256_file(path) if path.is_file() else None
+        for key, path in handoff_paths.items()
+    }
+    changed["handoff_runtime"] = before != after
     return changed, False
 
 
@@ -2109,6 +2124,7 @@ def compute_asset_hashes(paths: Paths) -> Dict[str, str]:
     return {
         key: sha256_file(path)
         for key, path in managed_asset_paths(paths).items()
+        if not key.startswith("handoff_") or hook_runtime_bundled(paths)
     }
 
 

@@ -347,3 +347,14 @@ python3 scripts/run_execution_eval.py --variant all --smoke
 ## 许可
 
 MIT — 见 [LICENSE](LICENSE)。
+
+## 官方插件市场版
+
+仓库同时提供用于 OpenAI 公共插件目录提交的 Skills-only Desktop 版。该版本仅支持
+Codex 0.149+，通过 `direct_codex` 运行，不包含生命周期 Hook；完整 GitHub 版继续
+保留 Hook 兼容路径。
+
+- 市场版构建脚本：[scripts/build_marketplace_bundle.py](scripts/build_marketplace_bundle.py)
+- 提交包：[codex-deepseek-router-marketplace-0.4.0.zip](https://github.com/emiuthousands/codex-deepseek-router-maintained/releases/download/v0.4.0/codex-deepseek-router-marketplace-0.4.0.zip)
+
+该 ZIP 是供 OpenAI 审核提交使用的候选包，当前不代表已经通过审核或正式上架。

@@ -58,6 +58,73 @@ def test_agents_are_independent(tmp_path):
     assert paths.settings == paths.state_dir / "settings.json"
 
 
+def test_plugin_status_accepts_portable_root_manifest(paths, tmp_path, monkeypatch):
+    package = tmp_path / "marketplace-plugin"
+    package.mkdir()
+    (package / "plugin.json").write_text(
+        json.dumps({"name": manager.PROJECT_NAME, "version": "0.4.0"}),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(manager, "package_root", lambda: package)
+
+    status = manager.plugin_status(paths)
+
+    assert status["manifest_valid"] is True
+    assert status["manifest"] == str(package / "plugin.json")
+
+
+def test_runtime_assets_do_not_require_unbundled_hook_helpers(
+    paths, tmp_path, monkeypatch
+):
+    package = tmp_path / "marketplace-plugin"
+    package.mkdir()
+    monkeypatch.setattr(manager, "package_root", lambda: package)
+
+    manager.install_agent(paths, manager.AGENT_SPECS[manager.FLASH_ROLE], {})
+    manager.install_agent(paths, manager.AGENT_SPECS[manager.PRO_ROLE], {})
+    manager.install_catalog(paths, {})
+    manifest = {
+        "hash_version": manager.HASH_VERSION_EXACT_BYTES,
+        "hashes": {
+            "flash_agent": manager.sha256_file(paths.flash_agent),
+            "pro_agent": manager.sha256_file(paths.pro_agent),
+            "catalog": manager.sha256_file(paths.catalog),
+        },
+    }
+
+    assert manager.runtime_assets_valid(paths, manifest) is True
+
+
+def test_asset_hashes_skip_unbundled_hook_helpers(paths, tmp_path, monkeypatch):
+    package = tmp_path / "marketplace-plugin"
+    package.mkdir()
+    monkeypatch.setattr(manager, "package_root", lambda: package)
+
+    manager.install_agent(paths, manager.AGENT_SPECS[manager.FLASH_ROLE], {})
+    manager.install_agent(paths, manager.AGENT_SPECS[manager.PRO_ROLE], {})
+    manager.install_catalog(paths, {})
+
+    hashes = manager.compute_asset_hashes(paths)
+
+    assert set(hashes) == {"flash_agent", "pro_agent", "catalog"}
+
+
+def test_managed_assets_accept_package_without_hook_helpers(
+    paths, tmp_path, monkeypatch
+):
+    package = tmp_path / "marketplace-plugin"
+    package.mkdir()
+    monkeypatch.setattr(manager, "package_root", lambda: package)
+
+    changed, adopted = manager.apply_managed_assets(paths, {})
+
+    assert adopted is False
+    assert changed["handoff_runtime"] is False
+    assert paths.flash_agent.is_file()
+    assert paths.pro_agent.is_file()
+    assert paths.catalog.is_file()
+
+
 def test_router_config_defaults_and_partial_overrides(tmp_path):
     paths = manager.Paths(tmp_path)
 
