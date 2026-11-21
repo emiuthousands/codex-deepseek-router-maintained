@@ -9,13 +9,39 @@
 <p align="center"><a href="README.md">简体中文</a> · <strong>English</strong></p>
 
 <p align="center">
-  <a href="https://github.com/TheBlindM/codex-deepseek-router/actions/workflows/ci.yml"><img src="https://github.com/TheBlindM/codex-deepseek-router/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  <a href="https://github.com/emiuthousands/codex-deepseek-router-maintained/actions/workflows/ci.yml"><img src="https://github.com/emiuthousands/codex-deepseek-router-maintained/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
 </p>
 
 > Codex always remains the parent agent. It selects `deepseek_flash` or
 > `deepseek_pro`, uses native children on compatible older versions or the
 > Desktop-bundled `direct_codex` transport on 0.149+, then verifies and
 > integrates the result itself.
+
+> **Community fork notice:** This repository is an independently maintained
+> community fork of
+> [TheBlindM/codex-deepseek-router](https://github.com/TheBlindM/codex-deepseek-router).
+> It retains the original project history and copyright notices. It is not an
+> official continuation and is not affiliated with or endorsed by the original
+> project maintainers. The original and adapted upstream
+> code remains available under the MIT License, and changes in this fork are
+> also released under the MIT License. See [NOTICE.md](NOTICE.md) and
+> [LICENSE](LICENSE) for the complete copyright, source, and trademark notices.
+
+## Maintained improvements
+
+This community-maintained edition currently adds the following improvements over
+the upstream project:
+
+- Fixed ordinary Windows PowerShell staging without an explicit Agent type.
+- Use a temporary, isolated `CODEX_HOME` for Codex Desktop `direct_codex`
+  execution, avoiding child-start failures in a read-only sandbox.
+- Made automatic routing explicitly Flash-first, escalating only high-demand
+  work to Pro.
+- Added Windows staging → Hook delivery → cleanup regression coverage and
+  updated the related routing and compatibility documentation.
+
+The maintainer will continue maintaining this project based on personal use,
+including compatibility fixes, additional verification, and documentation updates.
 
 ## The outcome first
 
@@ -42,7 +68,7 @@ in your system terminal. Open Codex in Desktop, start a new task, and send:
 
 ```text
 Install this plugin:
-https://github.com/TheBlindM/codex-deepseek-router
+https://github.com/emiuthousands/codex-deepseek-router-maintained
 ```
 
 The Codex agent inspects `.agents/plugins/marketplace.json` in the repository
@@ -61,7 +87,7 @@ Use these commands only when `codex --version` succeeds in your system
 terminal:
 
 ```bash
-codex plugin marketplace add TheBlindM/codex-deepseek-router
+codex plugin marketplace add emiuthousands/codex-deepseek-router-maintained
 codex plugin add codex-deepseek-router@deepseek-router
 ```
 
@@ -290,7 +316,7 @@ it as part of the router's cleanup semantics.
 <summary><strong>Install from source and verify manually</strong></summary>
 
 ```bash
-git clone https://github.com/TheBlindM/codex-deepseek-router.git
+git clone https://github.com/emiuthousands/codex-deepseek-router-maintained.git
 cd codex-deepseek-router
 python3 scripts/codex_deepseek_router.py status --json
 ```

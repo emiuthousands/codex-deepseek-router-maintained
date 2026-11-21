@@ -9,11 +9,29 @@
 <p align="center"><strong>简体中文</strong> · <a href="README.en.md">English</a></p>
 
 <p align="center">
-  <a href="https://github.com/TheBlindM/codex-deepseek-router/actions/workflows/ci.yml"><img src="https://github.com/TheBlindM/codex-deepseek-router/actions/workflows/ci.yml/badge.svg" alt="CI 状态"></a>
+  <a href="https://github.com/emiuthousands/codex-deepseek-router-maintained/actions/workflows/ci.yml"><img src="https://github.com/emiuthousands/codex-deepseek-router-maintained/actions/workflows/ci.yml/badge.svg" alt="CI 状态"></a>
 </p>
 
 > 将 DeepSeek 真正地接入 Codex 中。Codex 做总指挥，自动选择 Flash / Pro，
 > 把便宜的大量阅读交给 Flash，把难问题交给 Pro，并且最终由 Codex 验收。
+
+> **社区维护声明**：本仓库是
+> [TheBlindM/codex-deepseek-router](https://github.com/TheBlindM/codex-deepseek-router)
+> 的独立社区维护分支，保留原项目历史与版权声明；它不是原项目的官方续作，
+> 与原作者无隶属或背书关系。原始代码及适配的上游代码
+> 继续依照 MIT 许可证提供，本分支中的修改同样以 MIT 发布。完整版权、上游来源
+> 与商标说明见 [NOTICE.md](NOTICE.md) 和 [LICENSE](LICENSE)。
+
+## 本分支改进
+
+本社区维护版在上游基础上主要做了以下改进：
+
+- 修复 Windows 下普通 PowerShell staging 时未传递 Agent 类型的问题。
+- 为 Codex Desktop 的 `direct_codex` 执行使用临时、独立的 `CODEX_HOME`，避免只读沙箱导致子任务无法启动。
+- 将自动路由调整为更明确的 Flash-first 策略，只有高需求任务才自动升级到 Pro。
+- 补充 Windows staging → Hook 投递 → 清理流程的回归测试，并完善相关路由与兼容性文档。
+
+维护者将结合本人的实际使用继续维护本项目，持续修复兼容性问题、补充验证，并更新必要说明。
 
 ## 先看结果
 
@@ -39,7 +57,7 @@
 
 ```text
 请安装这个插件：
-https://github.com/TheBlindM/codex-deepseek-router
+https://github.com/emiuthousands/codex-deepseek-router-maintained
 ```
 
 Codex Agent 会检查仓库中的 `.agents/plugins/marketplace.json` 并发起安装；出现
@@ -55,7 +73,7 @@ Codex Agent 会检查仓库中的 `.agents/plugins/marketplace.json` 并发起�
 只有在系统终端执行 `codex --version` 成功时才使用下面的命令：
 
 ```bash
-codex plugin marketplace add TheBlindM/codex-deepseek-router
+codex plugin marketplace add emiuthousands/codex-deepseek-router-maintained
 codex plugin add codex-deepseek-router@deepseek-router
 ```
 
@@ -262,7 +280,7 @@ endpoint 或 model ID。Codex Desktop 卸载/重新安装 Plugin 不会删除该
 <summary><strong>从源码安装与手动验收</strong></summary>
 
 ```bash
-git clone https://github.com/TheBlindM/codex-deepseek-router.git
+git clone https://github.com/emiuthousands/codex-deepseek-router-maintained.git
 cd codex-deepseek-router
 python3 scripts/codex_deepseek_router.py status --json
 ```

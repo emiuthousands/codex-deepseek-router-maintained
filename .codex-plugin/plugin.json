@@ -1,24 +1,24 @@
 {
   "name": "codex-deepseek-router",
   "version": "0.3.2",
-  "description": "Route Codex work to DeepSeek Flash and Pro across native and Desktop-compatible transports.",
+  "description": "Community-maintained routing of Codex work to DeepSeek Flash and Pro across native and Desktop-compatible transports.",
   "author": {
-    "name": "codex-deepseek-router contributors",
-    "url": "https://github.com/TheBlindM/codex-deepseek-router"
+    "name": "emiuthousands and contributors",
+    "url": "https://github.com/emiuthousands/codex-deepseek-router-maintained"
   },
-  "homepage": "https://github.com/TheBlindM/codex-deepseek-router#readme",
-  "repository": "https://github.com/TheBlindM/codex-deepseek-router",
+  "homepage": "https://github.com/emiuthousands/codex-deepseek-router-maintained#readme",
+  "repository": "https://github.com/emiuthousands/codex-deepseek-router-maintained",
   "license": "MIT",
   "keywords": ["codex", "deepseek", "subagent", "router"],
   "skills": "./skills/",
   "interface": {
     "displayName": "Codex DeepSeek Router",
     "shortDescription": "Route Codex work to DeepSeek Flash or Pro.",
-    "longDescription": "Keep Codex as the parent while routing bounded text work to DeepSeek Flash or Pro through native subagents on compatible versions and the Desktop-bundled Codex runtime on 0.149+.",
-    "developerName": "codex-deepseek-router contributors",
+    "longDescription": "Community-maintained fork that keeps Codex as the parent while routing bounded text work to DeepSeek Flash or Pro through native subagents on compatible versions and the Desktop-bundled Codex runtime on 0.149+.",
+    "developerName": "emiuthousands",
     "category": "Developer Tools",
     "capabilities": ["Subagents", "Hooks", "Routing"],
-    "websiteURL": "https://github.com/TheBlindM/codex-deepseek-router",
+    "websiteURL": "https://github.com/emiuthousands/codex-deepseek-router-maintained",
     "defaultPrompt": [
       "Configure the DeepSeek Router.",
       "Use DeepSeek Flash to explore this repository.",

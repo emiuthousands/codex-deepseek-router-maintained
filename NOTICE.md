@@ -1,5 +1,22 @@
 # NOTICE
 
+## Community fork and copyright notice
+
+This repository is an independently maintained community fork of
+[TheBlindM/codex-deepseek-router](https://github.com/TheBlindM/codex-deepseek-router).
+It retains the original repository history and is not an official continuation
+of the original project. It is not affiliated with or endorsed by the original
+project maintainers, OpenAI, or DeepSeek.
+
+The original project and the adapted upstream code identified below remain
+subject to their respective MIT License terms. Changes authored by
+`emiuthousands` in this fork are also released under the MIT License unless a
+file explicitly states otherwise. The combined copyright notices and MIT
+permission text are recorded in [LICENSE](LICENSE).
+
+Project names, logos, service marks, and trademarks remain the property of
+their respective owners. The MIT License does not grant trademark rights.
+
 This project incorporates and adapts implementation ideas and MIT-licensed
 code from:
 
@@ -35,10 +52,9 @@ worded, additive policy contracts and asymmetric Flash tuning are implemented.
 ## Upstream license notices
 
 Both `oil-oil/codex-deepseek-subagent` and `Utopia-V/codex-deepseek-subagent`
-are distributed under the MIT License. The full MIT license text is included
-in [LICENSE](LICENSE). Where source code from those repositories has been
-adapted, the corresponding copyright notices are preserved in the file
-headers of the affected files:
+are distributed under the MIT License. Their copyright notices and the full
+MIT permission text are included in [LICENSE](LICENSE). The corresponding
+attribution for adapted files remains recorded below:
 
 - `scripts/codex_deepseek_router.py` —
   adapted from `oil-oil/codex-deepseek-subagent`
