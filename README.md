@@ -17,9 +17,11 @@
 
 > **社区维护声明**：本仓库是
 > [TheBlindM/codex-deepseek-router](https://github.com/TheBlindM/codex-deepseek-router)
-> 的独立社区维护分支，保留原项目历史与版权声明；它不是原项目的官方续作，
-> 与原作者无隶属或背书关系。原始代码及适配的上游代码
-> 继续依照 MIT 许可证提供，本分支中的修改同样以 MIT 发布。完整版权、上游来源
+> 的独立社区维护分支，原作者较长时间没有更新过本项目，我提交的pr也未审核，所以我单独发出了本维护项目。
+>
+> 本项目不是原项目的官方续作，与原作者无隶属或背书关系。
+>
+> 原始代码及适配的上游代码继续依照 MIT 许可证提供，本分支中的修改同样以 MIT 发布。完整版权、上游来源
 > 与商标说明见 [NOTICE.md](NOTICE.md) 和 [LICENSE](LICENSE)。
 
 ## 本分支改进
@@ -35,8 +37,8 @@
 
 ## 先看结果
 
-| 主控不变 | 双 Agent 分工 | 结果可证明 |
-| --- | --- | --- |
+| 主控不变                                            | 双 Agent 分工                   | 结果可证明                                      |
+| ----------------------------------------------- | ---------------------------- | ------------------------------------------ |
 | 不修改 `config.toml`，父模型、Provider 和 ChatGPT 登录保持原样 | Flash 负责快速只读探索，Pro 负责深度推理与实现 | 按实际传输验证 provider、模型、线程与随机 challenge marker |
 
 这不是 daemon、proxy 或 MCP Server，也不要求另装一套 CLI。0.148 及以下兼容
@@ -85,10 +87,10 @@ Plugin 会同时提供管理 Skill、路由 Skill 与原生 Hook，不需要手�
 
 #### 更新或卸载
 
-| 环境 | 更新 | 卸载 |
-| --- | --- | --- |
-| ChatGPT Desktop | 把上面的 GitHub 地址再次交给 Codex Agent，并要求“更新并重新安装这个插件”；或在 Plugins 页面卸载后重新安装 | 在 Plugins → Installed 中打开插件并选择卸载 |
-| Codex CLI | 依次运行 `codex plugin marketplace upgrade deepseek-router` 和 `codex plugin add codex-deepseek-router@deepseek-router` | 运行 `codex plugin remove codex-deepseek-router@deepseek-router` |
+| 环境              | 更新                                                                                                                 | 卸载                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| ChatGPT Desktop | 把上面的 GitHub 地址再次交给 Codex Agent，并要求“更新并重新安装这个插件”；或在 Plugins 页面卸载后重新安装                                               | 在 Plugins → Installed 中打开插件并选择卸载                               |
+| Codex CLI       | 依次运行 `codex plugin marketplace upgrade deepseek-router` 和 `codex plugin add codex-deepseek-router@deepseek-router` | 运行 `codex plugin remove codex-deepseek-router@deepseek-router` |
 
 无论使用哪种方式，安装或更新后都应完全重启 Desktop/CLI，并打开新任务，
 让新的 Skill、Hook 和工具生效。更多通用说明见
@@ -138,11 +140,11 @@ provider / 模型 / 线程 / marker 验证 → Codex 整合
 
 ### 谁来做什么
 
-| 路由目标 | 适合 | 边界 |
-| --- | --- | --- |
-| `deepseek_flash` | 搜索、枚举、日志、抽取、代码地图、大量阅读 | 只读；输出修改提案，不直接改文件 |
-| `deepseek_pro` | 根因、架构、并发、安全、复杂评审和跨模块实现 | 可写工作区；负责需要深度推理的落地 |
-| Codex 父 Agent | 琐碎任务、敏感内容、关键视觉判断、最终验证与整合 | 始终保留主控权 |
+| 路由目标             | 适合                       | 边界                |
+| ---------------- | ------------------------ | ----------------- |
+| `deepseek_flash` | 搜索、枚举、日志、抽取、代码地图、大量阅读    | 只读；输出修改提案，不直接改文件  |
+| `deepseek_pro`   | 根因、架构、并发、安全、复杂评审和跨模块实现   | 可写工作区；负责需要深度推理的落地 |
+| Codex 父 Agent    | 琐碎任务、敏感内容、关键视觉判断、最终验证与整合 | 始终保留主控权           |
 
 Router 默认采用 Flash-first 策略。大上下文、多文件搜索、长日志、初步根因分析
 和修改前调研不应仅因规模较大而直接交给 Pro；Flash 能完成且有证据时就先使用
@@ -199,10 +201,10 @@ Router 或同角色 fan-out 状态机。
 
 ### Native 验收与 API 消融评测是两条路径
 
-| 路径 | 入口 | 能证明什么 | 不能证明什么 |
-| --- | --- | --- | --- |
-| Native Codex | `stage → SubagentStart Hook → spawn_agent → callback`，或 `scripts/codex_deepseek_router.py test --json` | 原生子 Agent 路由、Hook、callback、线程元数据、marker，以及真实工具行为 | 不等同于 standalone prompt A/B |
-| Standalone API eval | `scripts/run_execution_eval.py --live` | Reasoning Adapter 的 prompt 消融、公开 token、延迟和答案 rubric | 没有 Native tool/callback trace，不代表 Native Pro 的失败率 |
+| 路径                  | 入口                                                                                                     | 能证明什么                                               | 不能证明什么                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------- | ------------------------------------------------- |
+| Native Codex        | `stage → SubagentStart Hook → spawn_agent → callback`，或 `scripts/codex_deepseek_router.py test --json` | 原生子 Agent 路由、Hook、callback、线程元数据、marker，以及真实工具行为    | 不等同于 standalone prompt A/B                        |
+| Standalone API eval | `scripts/run_execution_eval.py --live`                                                                 | Reasoning Adapter 的 prompt 消融、公开 token、延迟和答案 rubric | 没有 Native tool/callback trace，不代表 Native Pro 的失败率 |
 
 `run_execution_eval.py --live` 为了控制 A/B/C prompt，会直接调用
 `DeepSeekClient(...).complete()`；它使用的是 fallback client 自己的 timeout 和
@@ -232,16 +234,16 @@ DeepSeek 子 Agent 只接收文本。截图、图片和视频必须先由 Codex 
 
 ## 管理命令
 
-| 命令 | 作用 |
-| --- | --- |
-| `status` | 只读检查运行时、Agent、模型目录、凭据与 Hook |
-| `setup` | 幂等、事务化地安装全部组件 |
-| `test` | 分别执行 Flash 与 Pro 的真实原生派发验收 |
-| `repair` | 在父模型升级、Codex 更新或配置漂移后恢复 |
-| `migrate` | 精确移除旧 Skill-first 全局 Hook，不触碰其它 Hook |
-| `disable` | 记录停用意图；Plugin Hook 由 Codex/Plugin 管理 |
-| `uninstall` | 删除本项目拥有的内容；默认保留 API Key |
-| `doctor` | 诊断环境、Hook 信任与 handoff 状态 |
+| 命令          | 作用                                   |
+| ----------- | ------------------------------------ |
+| `status`    | 只读检查运行时、Agent、模型目录、凭据与 Hook          |
+| `setup`     | 幂等、事务化地安装全部组件                        |
+| `test`      | 分别执行 Flash 与 Pro 的真实原生派发验收           |
+| `repair`    | 在父模型升级、Codex 更新或配置漂移后恢复              |
+| `migrate`   | 精确移除旧 Skill-first 全局 Hook，不触碰其它 Hook |
+| `disable`   | 记录停用意图；Plugin Hook 由 Codex/Plugin 管理 |
+| `uninstall` | 删除本项目拥有的内容；默认保留 API Key              |
+| `doctor`    | 诊断环境、Hook 信任与 handoff 状态             |
 
 所有命令支持 `--json` 与 `--codex-home`。退出码：`0` 表示
 ready/configured，`2` 表示需要人工处理，`3` 表示超时，`1` 表示意外失败。
